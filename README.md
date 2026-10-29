@@ -24,11 +24,13 @@ The same dataset was also loaded into PostgreSQL (hosted on Supabase) and explor
 - `sql/01_explore_columns.sql` — row count, rating summary, and value counts for traveller type, recommendation, and seat type
 - `sql/02_clean_dates.sql` — converts the text dates (e.g. `1st August 2023`) into a real `date` column using `regexp_replace` and `to_date`; the true review range is 10 Nov 2015 to 1 Aug 2023
 - `sql/03_rating_analysis.sql` — review counts and average star rating by year, recommendation, and seat type
+- `sql/04_further_analysis.sql` — recommendation rate by traveller type, and a ranking of seat types within each year using a CTE and a window function (`RANK() OVER (PARTITION BY ...)`)
 
 SQL findings:
 - Review counts per year are uneven (peak in 2016–2017, lowest in 2020–2021); 2015 and 2023 are partial years
 - Average star rating is flat across the years (4.25–4.31 on the 1–9 scale), matching the Python analysis
 - Ratings barely differ by recommendation (4.32 for yes, 4.25 for no) or seat type (4.14–4.32), so the star column carries little signal about satisfaction in this dataset
+- Ranking seat types within each year is distorted by small groups (some winners rested on fewer than 10 reviews), so a minimum review count was applied; the winners then vary from year to year and First Class never qualifies
 
 ## Setup
 \`\`\`
